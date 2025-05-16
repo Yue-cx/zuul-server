@@ -3,10 +3,11 @@ package cn.edu.whut.sept.zuul.controller;
 import cn.edu.whut.sept.zuul.model.User;
 import cn.edu.whut.sept.zuul.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -26,16 +27,16 @@ public class UserController {
 
     // 用户登录
     @PostMapping("/login")
-    public User login(@RequestParam String name, @RequestParam String password) {
-        if (userService.login(name, password)) {
-            return userService.getUserByName(name);
+    public User login(@RequestBody User user) {
+        if (userService.login(user.getName(), user.getPassword())) {
+            return userService.getUserByName(user.getName());
         }
         else
             return null;
     }
 
     // 修改密码
-    @PostMapping("/change-password")
+    @PostMapping("/updatePwd")
     public boolean changePassword(@RequestParam String name,
                                   @RequestParam String oldPassword,
                                   @RequestParam String newPassword) {

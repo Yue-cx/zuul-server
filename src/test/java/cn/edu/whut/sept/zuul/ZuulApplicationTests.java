@@ -1,13 +1,13 @@
-package top.yixuanoct.whut_webapp_server;
+package cn.edu.whut.sept.zuul;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WhutWebappServerApplicationTests {
+class ZuulApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

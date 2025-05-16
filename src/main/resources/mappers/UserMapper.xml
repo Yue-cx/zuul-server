@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.whut.sept.zuul.mapper.UserMapper">
+
+    <!-- 插入用户 -->
+    <insert id="insert" parameterType="cn.edu.whut.sept.zuul.model.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users(name, password, email, birthday, avatar)
+        VALUES(#{name}, #{password}, #{email}, #{birthday}, #{avatar})
+    </insert>
+
+    <!-- 根据用户名查询用户 -->
+    <select id="findByName" parameterType="string" resultType="cn.edu.whut.sept.zuul.model.User">
+        SELECT * FROM users WHERE name = #{name}
+    </select>
+
+    <!-- 根据ID查询用户 -->
+    <select id="findById" parameterType="int" resultType="cn.edu.whut.sept.zuul.model.User">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <!-- 修改密码 -->
+    <update id="updatePassword">
+        UPDATE users
+        SET password = #{newPassword}
+        WHERE id = #{id} AND password = #{oldPassword}
+    </update>
+
+</mapper>

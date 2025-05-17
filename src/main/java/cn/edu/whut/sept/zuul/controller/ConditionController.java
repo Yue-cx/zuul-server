@@ -20,7 +20,7 @@ public class ConditionController {
     private ConditionService conditionService;
 
     @GetMapping("/bag/{id}")
-    public List<Item> getRoomById(@PathVariable Integer id) {
+    public List<Item> getBagByUserId(@PathVariable Integer id) {
         return conditionService.getUserBackpackItems(id);
     }
 

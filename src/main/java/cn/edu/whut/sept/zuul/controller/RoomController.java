@@ -23,4 +23,9 @@ public class RoomController {
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
     }
+
+    @GetMapping("/user/{id}")
+    public List<Room> getAllRooms(@PathVariable Integer id) {
+        return roomService.getAllRooms(id);
+    }
 }

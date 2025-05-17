@@ -84,4 +84,9 @@ public class UserServiceImpl implements UserService {
             return user;
         }
     }
+
+    @Override
+    public boolean isExits(Integer id){
+        return userMapper.findById(id)!=null;
+    }
 }

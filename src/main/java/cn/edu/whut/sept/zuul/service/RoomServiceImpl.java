@@ -1,6 +1,7 @@
 package cn.edu.whut.sept.zuul.service;
 
 import cn.edu.whut.sept.zuul.exception.NotFoundException;
+import cn.edu.whut.sept.zuul.mapper.ConditionMapper;
 import cn.edu.whut.sept.zuul.mapper.RoomMapper;
 import cn.edu.whut.sept.zuul.model.Room;
 import cn.edu.whut.sept.zuul.service.RoomService;
@@ -18,6 +19,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private RoomMapper roomMapper;
+
+    @Autowired
+    private ConditionMapper conditionMapper;
 
     /**
      * 将List<Map>转化成单一List,对roomMapper的进一步封装
@@ -53,6 +57,19 @@ public class RoomServiceImpl implements RoomService {
             }
             room.setExits(getExits(room.getId()));
             room.setItems(roomMapper.getItemsByRoomId(room.getId()));
+        }
+        return rooms;
+    }
+
+    @Override
+    public List<Room> getAllRooms(Integer userId){
+        List<Room> rooms = roomMapper.getAllRooms();
+        for (Room room : rooms) {
+            if (room == null) {
+                throw new NotFoundException("房间不存在异常! 请检查数据库");
+            }
+            room.setExits(getExits(room.getId()));
+            room.setItems(conditionMapper.findItemsByUserIdAndRoomId(userId,room.getId()));
         }
         return rooms;
     }

@@ -12,5 +12,7 @@ public interface UserService {
     User getUserById(Integer id);
 
     User getUserByName(String name);
+
+    boolean isExits(Integer id);
 }
 

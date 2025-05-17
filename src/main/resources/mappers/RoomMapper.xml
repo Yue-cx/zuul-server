@@ -27,11 +27,11 @@
 
     <select id="getItemsByRoomId" resultMap="ItemResultMap">
         SELECT i.* FROM
-        item_instance ii
+        initial_room_item ii
         JOIN items i ON ii.item_id = i.id
         WHERE ii.room_id = #{roomId}
     </select>
-
+    <!--即使使用uion也会被认为是多条记录,mybatis报错-->
     <select id="getExitsByRoomId" resultType="java.util.Map">
         <!--        'north' as direction 相当于加了一个常量字段,有利于返回一个规范的对象(含'方向-房间'键值对)-->
         SELECT

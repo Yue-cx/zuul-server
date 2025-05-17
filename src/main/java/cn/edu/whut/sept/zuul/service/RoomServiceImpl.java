@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -17,11 +19,24 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomMapper roomMapper;
 
+    /**
+     * 将List<Map>转化成单一List,对roomMapper的进一步封装
+     * @param roomId 房间id
+     * @return 单个Map,适用于room方位
+     */
+    private Map<String, Integer> getExits(Integer roomId) {
+        return roomMapper.getExitsByRoomId(roomId).stream()
+                .collect(Collectors.toMap(
+                        map -> Objects.toString(map.get("direction"), ""),
+                        map -> (Integer) map.get("roomId")
+                ));
+    }
+
     @Override
     public Room getRoomById(Integer id) {
         Room room = roomMapper.getRoomById(id);
         if (room != null) {
-            room.setExits(roomMapper.getExitsByRoomId(id));
+            room.setExits(getExits(id));
             room.setItems(roomMapper.getItemsByRoomId(id));
         } else {
             throw new NotFoundException("id为 " + id.toString() + " 的房间不存在");
@@ -33,10 +48,10 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> getAllRooms() {
         List<Room> rooms = roomMapper.getAllRooms();
         for (Room room : rooms) {
-            if(room==null){
+            if (room == null) {
                 throw new NotFoundException("房间不存在异常! 请检查数据库");
             }
-            room.setExits(roomMapper.getExitsByRoomId(room.getId()));
+            room.setExits(getExits(room.getId()));
             room.setItems(roomMapper.getItemsByRoomId(room.getId()));
         }
         return rooms;

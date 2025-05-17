@@ -13,5 +13,5 @@ public interface RoomMapper {
     Room getRoomById(@Param("id") Integer id);
     List<Room> getAllRooms();
     List<Item> getItemsByRoomId(@Param("roomId") Integer roomId);
-    Map<String, Integer> getExitsByRoomId(@Param("roomId") Integer roomId);
+    List<Map<String, Integer>> getExitsByRoomId(@Param("roomId") Integer roomId);
 }

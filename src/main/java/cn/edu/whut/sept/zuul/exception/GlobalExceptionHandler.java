@@ -42,6 +42,12 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(ex.getErrorCode(), ex.getMessage(), System.currentTimeMillis());
     }
 
+    @ExceptionHandler(NotFoundException.class) //一般找不到异常
+    @ResponseStatus(HttpStatus.NOT_FOUND) // 404
+    public ErrorResponse handleResourceNotFound(NotFoundException ex) {
+        return new ErrorResponse(ex.getErrorCode(), ex.getMessage(), System.currentTimeMillis());
+    }
+
     // 处理参数验证异常（如 @Valid 失败）
     @ExceptionHandler(cn.edu.whut.sept.zuul.exception.ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST) // 400

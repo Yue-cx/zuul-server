@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.whut.sept.zuul.mapper.RoomMapper">
+
+    <resultMap id="RoomResultMap" type="cn.edu.whut.sept.zuul.model.Room">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="image" column="image"/>
+    </resultMap>
+
+    <resultMap id="ItemResultMap" type="cn.edu.whut.sept.zuul.model.Item">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="weight" column="weight"/>
+        <result property="isUsable" column="is_usable"/>
+    </resultMap>
+
+    <select id="getRoomById" resultMap="RoomResultMap">
+        SELECT * FROM rooms WHERE id = #{id}
+    </select>
+
+    <select id="getAllRooms" resultMap="RoomResultMap">
+        SELECT * FROM rooms
+    </select>
+
+    <select id="getItemsByRoomId" resultMap="ItemResultMap">
+        SELECT i.* FROM
+        item_instance ii
+        JOIN items i ON ii.item_id = i.id
+        WHERE ii.room_id = #{roomId}
+    </select>
+
+    <select id="getExitsByRoomId" resultType="java.util.Map">
+        <!--        'north' as direction 相当于加了一个常量字段,有利于返回一个规范的对象(含'方向-房间'键值对)-->
+        SELECT
+        'north' as direction, north_room_id as roomId FROM rooms WHERE id = #{roomId} AND north_room_id IS NOT NULL
+        UNION ALL
+        SELECT
+        'south' as direction, south_room_id as roomId FROM rooms WHERE id = #{roomId} AND south_room_id IS NOT NULL
+        UNION ALL
+        SELECT
+        'east' as direction, east_room_id as roomId FROM rooms WHERE id = #{roomId} AND east_room_id IS NOT NULL
+        UNION ALL
+        SELECT
+        'west' as direction, west_room_id as roomId FROM rooms WHERE id = #{roomId} AND west_room_id IS NOT NULL
+    </select>
+</mapper>

@@ -37,4 +37,10 @@ public interface ConditionMapper {
     int insertOrUpdateItemInstance(@Param("userId") Integer userId,
                                    @Param("itemId") Integer itemId,
                                    @Param("roomId") Integer roomId);
+    /**
+     * 检查指定用户的条目是否保存过
+     * @param userId 用户ID
+     * @return 如果存在该用户的条目返回true，否则返回false
+     */
+    boolean isConditionHasBeenSaved(Integer userId);
 }

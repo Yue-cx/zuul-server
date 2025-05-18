@@ -25,8 +25,9 @@ public class RoomServiceImpl implements RoomService {
 
     /**
      * 将List<Map>转化成单一List,对roomMapper的进一步封装
+     *
      * @param roomId 房间id
-     * @return 单个Map,适用于room方位
+     * @return 单个Map, 适用于room方位
      */
     private Map<String, Integer> getExits(Integer roomId) {
         return roomMapper.getExitsByRoomId(roomId).stream()
@@ -62,15 +63,19 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getAllRooms(Integer userId){
-        List<Room> rooms = roomMapper.getAllRooms();
-        for (Room room : rooms) {
-            if (room == null) {
-                throw new NotFoundException("房间不存在异常! 请检查数据库");
+    public List<Room> getAllRooms(Integer userId) {
+        if (!conditionMapper.isConditionHasBeenSaved(userId))
+            return getAllRooms();
+        else {
+            List<Room> rooms = roomMapper.getAllRooms();
+            for (Room room : rooms) {
+                if (room == null) {
+                    throw new NotFoundException("房间不存在异常! 请检查数据库");
+                }
+                room.setExits(getExits(room.getId()));
+                room.setItems(conditionMapper.findItemsByUserIdAndRoomId(userId, room.getId()));
             }
-            room.setExits(getExits(room.getId()));
-            room.setItems(conditionMapper.findItemsByUserIdAndRoomId(userId,room.getId()));
+            return rooms;
         }
-        return rooms;
     }
 }

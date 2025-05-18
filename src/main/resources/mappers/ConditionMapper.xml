@@ -33,4 +33,9 @@
         ON DUPLICATE KEY UPDATE room_id = #{roomId}
     </insert>
 
+    <select id="isConditionHasBeenSaved" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END
+        FROM item_instance
+        WHERE user_id = #{userId}
+    </select>
 </mapper>

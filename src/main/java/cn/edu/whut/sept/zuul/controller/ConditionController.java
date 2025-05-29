@@ -1,4 +1,4 @@
-package cn.edu.whut.sept.zuul.controller;
+1package cn.edu.whut.sept.zuul.controller;
 
 import cn.edu.whut.sept.zuul.dto.SaveBackpackRequest;
 import cn.edu.whut.sept.zuul.dto.SaveRoomsRequest;

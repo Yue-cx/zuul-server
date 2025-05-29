@@ -1,7 +1,7 @@
 # Condition 部分
 
 ## 基础信息
-- **Base URL**: `/api/condition`
+- **Base URL**: `/api/condition`      
 - **Content-Type**: `application/json`
 - **响应格式**: JSON
 

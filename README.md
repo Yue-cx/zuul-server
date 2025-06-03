@@ -218,12 +218,16 @@ GET /api/room/1
     {
       "id": 1,
       "name": "大厅",
-      "description": "城堡的中央大厅"
+      "description": "城堡的中央大厅",
+      "exits": {},
+      "items": []
     },
     {
       "id": 2,
       "name": "卧室",
-      "description": "主人的卧室"
+      "description": "主人的卧室",
+      "exits": {},
+      "items": []
     }
   ]
   ```
@@ -253,13 +257,25 @@ GET /api/room
       "id": 1,
       "name": "大厅",
       "description": "城堡的中央大厅",
-      "userItems": [
+      "exits": {
+        "north": 2,
+        "east": 3,
+        "west": 4
+      },
+      "items": [
         {
           "id": 1,
           "name": "椅子",
-          "description": "木制椅子",
+          "description": "木制椅子，看起来有些年头了",
           "weight": 5.0,
           "isUsable": false
+        },
+        {
+          "id": 2,
+          "name": "烛台",
+          "description": "铜制烛台，蜡烛已经燃尽",
+          "weight": 3.5,
+          "isUsable": true
         }
       ]
     }

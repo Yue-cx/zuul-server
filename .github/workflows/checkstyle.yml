@@ -1,0 +1,52 @@
+name: Java代码规范检查
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  代码格式检查与修复:
+    name: Java代码格式检查与自动修复
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 安装JDK13
+        uses: actions/setup-java@v3
+        with:
+          java-version: "13"
+          distribution: "temurin"
+
+      - name: 缓存Maven依赖
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2-
+
+      - name: 运行Checkstyle检查
+        run: mvn checkstyle:check
+
+      - name: 自动格式化代码
+        if: failure() # 仅在检查失败时执行
+        run: |
+          # 使用格式化工具修复代码
+          mvn checkstyle:checkstyle
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add src
+          git commit -m "style: 自动修复代码格式问题 [skip ci]"
+          git push
+
+      - name: 上传检查报告
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: checkstyle-result
+          path: target/checkstyle-result.xml

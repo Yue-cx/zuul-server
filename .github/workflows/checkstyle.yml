@@ -7,7 +7,7 @@ on:
     branches: [main, master]
 
 jobs:
-  代码格式检查与修复:
+  check-java-style:
     name: Java代码格式检查与自动修复
     runs-on: ubuntu-latest
 
